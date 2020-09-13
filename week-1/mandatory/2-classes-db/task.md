@@ -32,12 +32,27 @@ SELECT * FROM reservations WHERE checkin_date BETWEEN '2020-09-01' and '2020-09-
 
 INSERT INTO rooms (room_no, rate, room_type) VALUES (501, 185.00, 'PENTHOUSE'), (502, 185.00, 'PENTHOUSE');
 
--- UPDATE rooms
--- SET rate = SELECT FROM room_types where room_type='PENTHOUSE'
--- WHERE room_no = 501 AND 502;
+--INSERT INTO rooms (rate) SELECT (def_rate) FROM room_types WHERE room_type='PENTHOUSE';
 
-cyf_hotel=> SELECT * FROM rooms ORDER BY room_no DESC;
+***Task_6***
 
+INSERT INTO rooms (room_no, rate, room_type) VALUES (503, 143.00, 'PREMIER PLUS');
+
+***Task_7***
+
+SELECT COUNT(room_no) FROM reservations WHERE checkin_date BETWEEN '2020-08-01' and '2020-08-31';
+
+ count
+-------
+    36
+(1 row)
+
+SELECT COUNT(DISTINCT(room_no)) FROM reservations WHERE checkin_date BETWEEN '2020-08-01' and '2020-08-31';
+
+ count
+-------
+    26
+(1 row)
 
 
 ```
