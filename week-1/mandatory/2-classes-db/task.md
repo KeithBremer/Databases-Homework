@@ -47,12 +47,68 @@ SELECT COUNT(room_no) FROM reservations WHERE checkin_date BETWEEN '2020-08-01' 
     36
 (1 row)
 
-SELECT COUNT(DISTINCT(room_no)) FROM reservations WHERE checkin_date BETWEEN '2020-08-01' and '2020-08-31';
+SELECT COUNT(DISTINCT room_no) FROM reservations WHERE checkin_date BETWEEN '2020-08-01' and '2020-08-31';
 
  count
 -------
     26
 (1 row)
+
+***Task_8***
+
+SELECT SUM(checkout_date - checkin_date) as floor_2_total_nights FROM reservations WHERE room_no BETWEEN 201 AND 299;
+
+ floor_2_total_nights
+----------------------
+                   63
+(1 row)
+
+***Task_9***
+
+SELECT COUNT(total) as total,
+        SUM(total) as grand_total,
+        round(AVG(total)) as average
+        FROM invoices WHERE total > 300;
+
+ total | grand_total | average
+-------+-------------+---------
+    25 |    12928.00 |     517
+
+
+***Task_10***
+ALTER TABLE rooms
+ADD floor integer;
+
+UPDATE rooms
+SET floor = 1
+WHERE room_no BETWEEN 100 AND 199;
+
+UPDATE rooms
+SET floor = 2
+WHERE room_no BETWEEN 200 AND 299;
+
+UPDATE rooms
+SET floor = 3
+WHERE room_no BETWEEN 300 AND 399;
+
+UPDATE rooms
+SET floor = 4
+WHERE room_no BETWEEN 400 AND 499;
+
+UPDATE rooms
+SET floor = 5
+WHERE room_no BETWEEN 500 AND 599;
+
+
+(SELECT SUM(checkout_date - checkin_date) as nights FROM reservations WHERE room_no BETWEEN 100 AND 199)
+UNION
+(SELECT SUM(checkout_date - checkin_date) FROM reservations WHERE room_no BETWEEN 200 AND 299)
+UNION
+(SELECT SUM(checkout_date - checkin_date) FROM reservations WHERE room_no BETWEEN 300 AND 399)
+UNION
+(SELECT SUM(checkout_date - checkin_date) FROM reservations WHERE room_no BETWEEN 400 AND 499)
+UNION
+(SELECT SUM(checkout_date - checkin_date) FROM reservations WHERE room_no BETWEEN 500 AND 599);
 
 
 ```
