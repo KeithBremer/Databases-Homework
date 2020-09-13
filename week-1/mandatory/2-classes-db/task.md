@@ -28,17 +28,21 @@ SELECT * FROM reservations WHERE checkin_date BETWEEN '2020-09-01' and '2020-09-
  INSERT INTO room_types (room_type, def_rate) VALUES ('PENTHOUSE', 185.00);
 
 
-***Task_5***
+********* Task_5 **********
 
 INSERT INTO rooms (room_no, rate, room_type) VALUES (501, 185.00, 'PENTHOUSE'), (502, 185.00, 'PENTHOUSE');
 
 --INSERT INTO rooms (rate) SELECT (def_rate) FROM room_types WHERE room_type='PENTHOUSE';
 
-***Task_6***
+
+********** Task_6 ***********
 
 INSERT INTO rooms (room_no, rate, room_type) VALUES (503, 143.00, 'PREMIER PLUS');
 
-***Task_7***
+
+*********** Task_7 ***********
+
+-- incl multiple times checked rooms --
 
 SELECT COUNT(room_no) FROM reservations WHERE checkin_date BETWEEN '2020-08-01' and '2020-08-31';
 
@@ -47,6 +51,8 @@ SELECT COUNT(room_no) FROM reservations WHERE checkin_date BETWEEN '2020-08-01' 
     36
 (1 row)
 
+-- no multiple --
+
 SELECT COUNT(DISTINCT room_no) FROM reservations WHERE checkin_date BETWEEN '2020-08-01' and '2020-08-31';
 
  count
@@ -54,7 +60,7 @@ SELECT COUNT(DISTINCT room_no) FROM reservations WHERE checkin_date BETWEEN '202
     26
 (1 row)
 
-***Task_8***
+************ Task_8 ***********
 
 SELECT SUM(checkout_date - checkin_date) as floor_2_total_nights FROM reservations WHERE room_no BETWEEN 201 AND 299;
 
@@ -63,7 +69,7 @@ SELECT SUM(checkout_date - checkin_date) as floor_2_total_nights FROM reservatio
                    63
 (1 row)
 
-***Task_9***
+********** Task_9 **************
 
 SELECT COUNT(total) as total,
         SUM(total) as grand_total,
@@ -75,10 +81,14 @@ SELECT COUNT(total) as total,
     25 |    12928.00 |     517
 
 
-***Task_10***
+********* Task_10 *************
+
+-- add floor field to rooms table --
 
 ALTER TABLE rooms
 ADD floor integer;
+
+-- set values depending on which floor --
 
 UPDATE rooms
 SET floor = 1
@@ -100,13 +110,18 @@ UPDATE rooms
 SET floor = 5
 WHERE room_no BETWEEN 500 AND 599;
 
+-- add nigths field to reservations --
 
 ALTER TABLE reservations
 ADD nigths integer;
 
+-- calculate and add nights value--
+
 UPDATE reservations
 SET nigths = (checkout_date - checkin_date);
 
+-- list floor from rooms table, and each floor's total(SUM) of nights from reservations table, by using
+-- inner join and group/order by floor.
 
 SELECT rooms.floor, SUM(reservations.nigths) as total_nigths
 FROM rooms
@@ -114,6 +129,8 @@ INNER JOIN reservations ON
 rooms.room_no=reservations.room_no
 GROUP BY rooms.floor
 ORDER BY rooms.floor;
+
+--result (no bookings for floor 5 as we newly inserted those rooms)--
 
  floor | total_nigths
 -------+--------------
