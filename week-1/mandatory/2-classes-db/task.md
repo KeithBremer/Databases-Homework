@@ -76,6 +76,7 @@ SELECT COUNT(total) as total,
 
 
 ***Task_10***
+
 ALTER TABLE rooms
 ADD floor integer;
 
@@ -100,15 +101,27 @@ SET floor = 5
 WHERE room_no BETWEEN 500 AND 599;
 
 
-(SELECT SUM(checkout_date - checkin_date) as nights FROM reservations WHERE room_no BETWEEN 100 AND 199)
-UNION
-(SELECT SUM(checkout_date - checkin_date) FROM reservations WHERE room_no BETWEEN 200 AND 299)
-UNION
-(SELECT SUM(checkout_date - checkin_date) FROM reservations WHERE room_no BETWEEN 300 AND 399)
-UNION
-(SELECT SUM(checkout_date - checkin_date) FROM reservations WHERE room_no BETWEEN 400 AND 499)
-UNION
-(SELECT SUM(checkout_date - checkin_date) FROM reservations WHERE room_no BETWEEN 500 AND 599);
+ALTER TABLE reservations
+ADD nigths integer;
+
+UPDATE reservations
+SET nigths = (checkout_date - checkin_date);
+
+
+SELECT rooms.floor, SUM(reservations.nigths) as total_nigths
+FROM rooms
+INNER JOIN reservations ON
+rooms.room_no=reservations.room_no
+GROUP BY rooms.floor
+ORDER BY rooms.floor;
+
+ floor | total_nigths
+-------+--------------
+     1 |           54
+     2 |           63
+     3 |           46
+     4 |           40
+(4 rows)
 
 
 ```
