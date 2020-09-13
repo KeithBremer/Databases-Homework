@@ -8,28 +8,37 @@ To submit this homework write the correct commands for each question here:
 
 ```sql
 
-***  TASK 1 ***
+***Task_1***
 
 SELECT DISTINCT room_type as luxury_rooms , rate FROM rooms where rate > 100.00;
 
- luxury_rooms |  rate
---------------+--------
- PREMIER      | 110.00
- PREMIER PLUS | 123.00
- FAMILY       | 123.00
-(3 rows)
 
-***  TASK 2 ***
+***Task_2***
 
 SELECT * FROM reservations WHERE checkin_date BETWEEN '2020-09-01' and '2020-09-30' AND checkout_date - checkin_date > 4;
 
-(9 rows)
 
-*** TASK 3 ***
+***Task_3***
 
- SELECT * FROM Customers Where city LIKE 'M%';
+ SELECT * FROM Customers WHERE city LIKE 'M%';
 
-(21 rows)
+
+***Task_4***
+
+ INSERT INTO room_types (room_type, def_rate) VALUES ('PENTHOUSE', 185.00);
+
+
+***Task_5***
+
+INSERT INTO rooms (room_no, rate, room_type) VALUES (501, 185.00, 'PENTHOUSE'), (502, 185.00, 'PENTHOUSE');
+
+-- UPDATE rooms
+-- SET rate = SELECT FROM room_types where room_type='PENTHOUSE'
+-- WHERE room_no = 501 AND 502;
+
+cyf_hotel=> SELECT * FROM rooms ORDER BY room_no DESC;
+
+
 
 ```
 
