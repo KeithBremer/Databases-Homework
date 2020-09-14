@@ -8,12 +8,30 @@ To submit this homework write the correct commands for each question here:
 
 ```sql
 1.select * from rooms where rate>=100.00;
-2.select * from reservations where extract(month from checkin_date)=extract(month from current_date) and checkout_date-checkin_date>3;
+2.select * from reservations where EXTRACT(MONTH from checkin_date)=EXTRACT(MONTH from current_date) and checkout_date-checkin_date>3;
 3.select * from customers where name LIKE 'm%';
 4.insert into room_types (room_type,def_rate) values ('PENTHOUSE',185.00);
- insert into rooms (room_no,room_type,rate) values (502,'PENTHOUSE',185.00);
- to check what is inserted
-select * from rooms order by room_no desc limit 10;
+5.insert into rooms (room_no,room_type,rate) values (502,'PENTHOUSE',185.00);
+5.insert into rooms (room_no,room_type,rate) values (502,'PENTHOUSE',185.00);
+to check what is inserted
+select * from rooms order by room_no DESC LIMIT 10;
+6. insert into rooms (room_no,rate,room_type) values(503 ,143.00,'PREMIER PLUS');
+7. select COUNT(*)  from reservations where EXTRACT(MONTH from checkin_date)=EXTRACT(MONTH from current_date -1);
+8.select COUNT(checkout_date-checkin_date) from reservations where room_no BETWEEN 200 AND 300;
+9. select COUNT(*) as total_no_of_invoices ,AVG(total) as average ,SUM(total) as total from invoices where total>300.00;
+10.
+first-floor
+select sum(checkout_date-checkin_date) as nights_on_first_floor from reservations where room_no between 101 and 199;
+second-floor
+select sum(checkout_date-checkin_date) as nights_on_first_floor from reservations where room_no between 201 and 299;
+third_floor
+select sum(checkout_date-checkin_date) as nights_on_first_floor from reservations where room_no between 201 and 299;
+
+
+
+
+
+
 
 
 
@@ -41,5 +59,5 @@ Using what you can learn about aggregate functions in the w3schools SQL classes 
 
 7.  The hotel manager wishes to know how many rooms were occupied any time during the previous month - find that information.
 8.  Get the total number of nights that customers stayed in rooms on the second floor (rooms 201 - 299).
-9.  How many invoices are for more than £300.00 and what is their grand total and average amount?
+9.  How many invoices are for more than £300.00 and what is their grand total and 2average amount?
 10. Bonus Question: list the number of nights stay for each floor of the hotel (floor no is the hundreds part of room number, e.g. room **3**12 is on floor **3**)
