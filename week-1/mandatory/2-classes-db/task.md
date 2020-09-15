@@ -16,7 +16,7 @@ To submit this homework write the correct commands for each question here:
 7. select all from reservations where checkin_date >= '2020-08-01' and checkin_date <= '2020-08-31'; / select count(id) from reservations where checkin_date >= '2020-08-01' and checkin_date <= '2020-08-31';
 8. select sum(checkout_date - checkin_date) from reservations where room_no between 200 and 299;
 9. select sum(total),avg(total) from invoices where total > 300;
-10. select sum(case when room_no between 100 and 199 then checkout_date - checkin_date end) as first_floor, sum(case when room_no between 200 and 299 then checkout_date - checkin_date end) as second_floor, sum(case when room_no between 300 and 399 then checkout_date - checkin_date end) as third_floor from reservations;
+10. select sum(case when room_no between 100 and 199 then checkout_date - checkin_date end) as first_floor, sum(case when room_no between 200 and 299 then checkout_date - checkin_date end) as second_floor, sum(case when room_no between 300 and 399 then checkout_date - checkin_date end) as third_floor, sum(case when room_no between 400 and 499 then checkout_date - checkin_date end) as fourth_floor from reservations;
 ```
 
 When you have finished all of the questions - open a pull request with your answers to the `Databases-Homework` repository.
