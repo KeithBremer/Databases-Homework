@@ -22,7 +22,9 @@ If you haven't completed all the exercises from this lesson then do that first.
 1.  Which rooms have a rate of more than 100.00?
     select room_no, rate from rooms where rate > 100.00;
 2.  List the reservations that have a checkin date this month and are for more than three nights.
+    select \*, checkin_date - checkout_date as night from reservations where checkin_date between '2020-09-01' and '2020-09-30' and checkout_date - checkin_date > 3
 3.  List all customers from cities that begin with the letter 'M'.
+    select \* from customers where name like 'M%';
 
 Insert some new data into the room_types and rooms tables, querying after each stage to check the data, as follows:
 
