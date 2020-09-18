@@ -7,7 +7,28 @@ Below you will find a set of tasks for you to complete to consolidate and extend
 To submit this homework write the correct commands for each question here:
 
 ```sql
+1.select *from rooms where rate >'100';
 
+2.select *from reservations where checkin_date > '2020-08-31'and checkout_date - checkin_date > '3';
+
+3.select *from customers where city like  'M%';
+
+
+4.INSERT into room_types (room_type,def_rate) VALUES ('PENTHOUSE',185.00);
+
+5.insert into rooms  (room_no, rate, room_type) values ('501' ,'185.00', 'PENTHOUSE'), ('502' ,'185.00', 'PENTHOUSE');
+
+6.insert into rooms  (room_no, rate, room_type) values ('503' ,'143.00', 'PREMIER PLUS');
+
+7.SELECT COUNT(cust_id) FROM reservations WHERE checkin_date >='2020-08-01' AND checkout_date <='2020-08-31';
+
+8.select sum(checkin_date - checkout_date) from reservations where room_no between 201 and 299;
+
+9. SELECT COUNT(*) from invoices WHERE total > 300.00;
+
+SELECT SUM(total) from invoices WHERE total > 300.00;
+
+SELECT AVG(total) from invoices WHERE total > 300.00;
 
 ```
 
