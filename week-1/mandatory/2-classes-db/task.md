@@ -15,12 +15,24 @@ SELECT DISTINCT room_type as luxury_rooms , rate FROM rooms where rate > 100.00;
 
 ***Task_2***
 
-SELECT * FROM reservations WHERE checkin_date BETWEEN '2020-09-01' and '2020-09-30' AND checkout_date - checkin_date > 4;
+SELECT * FROM reservations WHERE checkin_date BETWEEN '2020-09-01' and '2020-09-30' AND checkout_date - checkin_date > 3;
+
+SELECT * FROM reservations
+          WHERE date_trunc('month', checkin_date) = date_trunc('month', current_date)
+            AND (checkout_date - checkin_date) > 3;
 
 
 ***Task_3***
 
  SELECT * FROM Customers WHERE city LIKE 'M%';
+
+ --solution 2 (checking upper and lower )
+
+SELECT * FROM customers WHERE Upper(city) LIKE 'M%';
+
+--solution 3 (other methods, includes substring, regex or lef)
+
+SELECT * FROM customers WHERE left(city,1) = 'M';
 
 
 ***Task_4***
@@ -44,7 +56,7 @@ INSERT INTO rooms (room_no, rate, room_type) VALUES (503, 143.00, 'PREMIER PLUS'
 
 -- incl multiple times checked rooms --
 
-SELECT COUNT(room_no) FROM reservations WHERE checkin_date BETWEEN '2020-08-01' and '2020-08-31';
+SELECT room_no FROM reservations WHERE checkin_date BETWEEN '2020-08-01' and '2020-08-31';
 
  count
 -------
