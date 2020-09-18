@@ -1,0 +1,8 @@
+select *from rooms where rate >'100';
+
+select *from reservations where checkin_date > '2020-08-31'and checkout_date - checkin_date > '3';
+
+select *from customers where city like  'M%';
+
+
+INSERT into room_types (room_type,def_rate) VALUES ('PENTHOUSE',185.00);
