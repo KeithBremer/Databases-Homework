@@ -20,6 +20,21 @@ To submit this homework write the correct commands for each question here:
     FROM products JOIN product_availability pa ON products.id=pa.prod_id
     WHERE pa.unit_price > 100;
 
+5. SELECT products.product_name, pa.unit_price
+    FROM products JOIN product_availability pa ON products.id=pa.prod_id
+    ORDER BY pa.unit_price DESC
+    LIMIT 5;
+
+6. SELECT products.product_name, pa.unit_price, sup.supplier_name FROM
+    products JOIN product_availability pa ON
+    (products.id=pa.prod_id) JOIN suppliers sup ON
+    (pa.supp_id=sup.id);
+
+7. SELECT p.product_name, sup.supplier_name FROM
+    products p JOIN product_availability pa ON
+    (p.id=pa.prod_id) JOIN suppliers sup ON
+    (pa.supp_id=sup.id) WHERE sup.country='United Kingdom';
+
 
 ```
 
