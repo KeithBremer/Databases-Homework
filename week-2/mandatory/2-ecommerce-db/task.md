@@ -35,7 +35,23 @@ To submit this homework write the correct commands for each question here:
     (p.id=pa.prod_id) JOIN suppliers sup ON
     (pa.supp_id=sup.id) WHERE sup.country='United Kingdom';
 
+8. SELECT cust.id cust_id, orders.id order_id, orders.order_reference,
+    orders.order_date, oi.quantity * pa.unit_price as total_cost
+    FROM customers cust JOIN orders ON (cust.id=orders.customer_id)
+    JOIN order_items oi ON (orders.id=oi.order_id)
+    JOIN product_availability pa ON (oi.supplier_id=pa.supp_id)
+    WHERE cust.id=1;
 
+9.
+    SELECT cust.id cust_id, cust.name cust_name, orders.id order_id, orders.order_date,
+    orders.order_reference, oi.product_id, oi.supplier_id, oi.quantity
+    FROM customers cust JOIN orders ON (cust.id=orders.customer_id)
+    JOIN order_items oi ON (orders.id=oi.order_id)
+    WHERE cust.name='Hope Crosby';
+
+ -- if i select orders.* and oi.* list duplicate unnecessary id numbers and hard to read, so tailored by selecting usefull fields..stingy customer btw--
+
+ 10.
 ```
 
 When you have finished all of the questions - open a pull request with your answers to the `Databases-Homework` repository.
