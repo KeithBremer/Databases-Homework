@@ -12,7 +12,7 @@ To submit this homework write the correct commands for each question here:
 
 1. SELECT name, address FROM customers WHERE country='United States';
 
-2. SELECT * FROM customers ORDER BY name ASC;
+2. SELECT * FROM customers ORDER BY name ASC;  -- it already orders asc by default --
 
 3. SELECT * FROM products WHERE product_name LIKE '%socks%';
 
@@ -52,6 +52,26 @@ To submit this homework write the correct commands for each question here:
  -- if i select orders.* and oi.* list duplicate unnecessary id numbers and hard to read, so tailored by selecting usefull fields..stingy customer btw--
 
  10.
+    SELECT pro.product_name, pa.unit_price, oi.quantity, orders.order_reference
+    FROM products pro JOIN product_availability pa ON (pro.id=pa.prod_id)
+    JOIN order_items oi ON (pa.prod_id=oi.product_id)
+    JOIN orders ON (oi.order_id=orders.id)
+    WHERE orders.order_reference='ORD006';
+
+11.
+    SELECT cust.name cust_name, orders.order_reference, orders.order_date,
+    pro.product_name, sup.supplier_name, oi.quantity
+    FROM customers cust JOIN orders ON (cust.id=orders.customer_id)
+    JOIN order_items oi ON (orders.id=oi.order_id)
+    JOIN products pro ON (oi.product_id=pro.id)
+    JOIN suppliers sup ON (oi.supplier_id=sup.id);
+
+12.
+    SELECT DISTINCT cust.name suspected_customers
+    FROM customers cust JOIN orders ON (cust.id=orders.customer_id)
+    JOIN order_items oi ON (orders.id=oi.order_id)
+    JOIN suppliers sup ON (oi.supplier_id=sup.id)
+    WHERE sup.country='China';
 ```
 
 When you have finished all of the questions - open a pull request with your answers to the `Databases-Homework` repository.
