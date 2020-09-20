@@ -16,7 +16,7 @@ To submit this homework write the correct commands for each question here:
 
 4- select p.id, p.product_name, pa.supp_id, pa.unit_price
     from products p 
-    join product_availability pa on Ûpa.prod_id = p.id 
+    join product_availability pa on pa.prod_id = p.id 
     where pa.unit_price >= 100;
 
 5- select p.id, p.product_name, pa.supp_id, pa.unit_price
