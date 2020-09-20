@@ -72,6 +72,15 @@ To submit this homework write the correct commands for each question here:
     JOIN order_items oi ON (orders.id=oi.order_id)
     JOIN suppliers sup ON (oi.supplier_id=sup.id)
     WHERE sup.country='China';
+
+13.
+    SELECT cust.name cust_names, orders.order_reference, orders.order_date,
+    oi.quantity * pa.unit_price total_amount
+    FROM customers cust JOIN orders ON (cust.id=orders.customer_id)
+    JOIN order_items oi ON (orders.id=oi.order_id)
+    JOIN product_availability pa ON (oi.product_id=pa.prod_id)
+    ORDER BY total_amount DESC;
+
 ```
 
 When you have finished all of the questions - open a pull request with your answers to the `Databases-Homework` repository.
