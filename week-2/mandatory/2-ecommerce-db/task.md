@@ -20,7 +20,7 @@ To submit this homework write the correct commands for each question here:
     FROM products JOIN product_availability pa ON products.id=pa.prod_id
     WHERE pa.unit_price > 100;
 
-5. SELECT products.product_name, pa.unit_price
+5. SELECT products.product_name most_expensive_products, pa.unit_price
     FROM products JOIN product_availability pa ON products.id=pa.prod_id
     ORDER BY pa.unit_price DESC
     LIMIT 5;
