@@ -8,7 +8,20 @@ Below you will find a set of tasks for you to complete to set up a database for 
 
 To submit this homework write the correct commands for each question here:
 ```sql
-
+1. select * from customers where country = 'United States';
+2. select * from customers order by name;
+3. select * from products where product_name like '%socks%';
+4. select a.prod_id, p.product_name,a.supp_id,a.unit_price from product_availability a join products p on p.id = a.prod_id where a.unit_price > 100;
+5. select * from product_availability order by unit_price DESC limit 5;
+6. select p.product_name,a.unit_price,s.supplier_name from product_availability a join products p on p.id = a.prod_id join suppliers s on a.supp_id = s.id;
+7. select p.product_name,s.supplier_name from product_availability a join products p on p.id = a.prod_id join suppliers s on a.supp_id = s.id where s.country = 'United Kingdom';
+8-a. select o.id as Order_ID,o.order_reference, o.order_date, a.unit_price * i.quantity as total from order_items i join orders o on o.id=i.order_id join product_availability a on (i.product_id = a.prod_id and i.supplier_id = a.supp_id) where o.customer_id = 1;
+8-b. select o.id as Order_ID,p.product_name, o.order_reference, o.order_date, a.unit_price * i.quantity as total from order_items i join orders o on o.id=i.order_id join product_availability a on (i.product_id = a.prod_id and i.supplier_id = a.supp_id) join products p on p.id = a.prod_id where o.customer_id = 1;
+9. select o.id as Order_ID, p.product_name from orders o join order_items i on o.id = i.order_id join customers c on c.id = o.customer_id join products p on p.id = i.product_id where c.name = 'Hope Crosby';
+10. select p.product_name, a.unit_price, i.quantity from order_items i join orders o on o.id=i.order_id join product_availability a on (i.product_id = a.prod_id and i.supplier_id = a.supp_id) join products p on p.id = a.prod_id where o.order_reference = 'ORD006';
+11. select c.name, o.order_reference, o.order_date, p.product_name, s.supplier_name, i.quantity from order_items i join product_availability a on (i.product_id = a.prod_id and i.supplier_id = a.supp_id) join orders o on o.id = i.order_id join customers c on o.customer_id = c.id join products p on a.prod_id = p.id join suppliers s on a.supp_id = s.id;
+12. select distinct c.name from order_items i join orders o on i.order_id = o.id join customers c on c.id = o.customer_id join suppliers s on i.supplier_id = s.id where s.country = 'China';
+13. select c.name, o.order_reference, o.order_date, sum(i.quantity * a.unit_price) as total from orders o join customers c on o.customer_id = c.id join order_items i on i.order_id = o.id join product_availability a on (i.product_id = a.prod_id and i.supplier_id = a.supp_id) group by c.name, o.order_reference, o.order_date order by total DESC;
 
 ```
 
