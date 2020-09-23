@@ -7,7 +7,9 @@ In this homework, you are going to work with an ecommerce database. In this data
 Below you will find a set of tasks for you to complete to set up a database for an e-commerce app.
 
 To submit this homework write the correct commands for each question here:
+
 ```sql
+
 1. select * from customers where country = 'United States';
 2. select * from customers order by name;
 3. select * from products where product_name like '%socks%';
