@@ -7,9 +7,18 @@ Below you will find a set of tasks for you to complete to consolidate and extend
 To submit this homework write the correct commands for each question here:
 
 ```sql
-
-
-```
+1- select * from rooms where rate >100;
+2-select * from reservations where  checkin_date between '2020-09-01' and '2020-09-30' and  checkout_date - checkin_date >3;
+3-select * from customers where city like 'M%';
+4-insert into room_types( room_type, def_rate) values ('PENTHOUSE', 185.00);
+5-insert into rooms( room_no, room_type, rate) values (501,'PENTHOUSE', 185.00), (502,'PENTHOUSE', 185.00);
+6-insert into rooms( room_no, room_type, rate) values (503,'PREMIER PLUS', 143.00);
+7- select count(room_no)
+ from reservations where checkin_date between '2020-08-01'and '2020-08-31'
+ 8- select sum(checkout_date - checkin_date) from reservations where room_no between 201 and 299;
+ 9- select count(*), sum(total), avg(total) from invoices where total >300;
+ 10- select sum(checkout_date - checkin_date) from reservations where room_no/100 ;
+ ```
 
 When you have finished all of the questions - open a pull request with your answers to the `Databases-Homework` repository.
 
