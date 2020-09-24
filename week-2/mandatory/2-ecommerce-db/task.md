@@ -22,17 +22,18 @@ To submit this homework write the correct commands for each question here:
 5- select p.id, p.product_name, pa.supp_id, pa.unit_price
     from products p 
     join product_availability pa on pa.prod_id = p.id 
-    where pa.unit_price >= 10 
     order by pa.unit_price 
     desc limit 5;
 
-6- select p.product_name, pa.unit_price, s.supplier_name from products p  
+6- select p.product_name, pa.unit_price, s.supplier_name 
+    from products p  
     join product_availability pa on p.id= pa.prod_id 
     join suppliers s on pa.supp_id = s.id;
 
 7-select p.product_name, s.supplier_name from products p 
    join product_availability pa on  p.id = pa.prod_id
-   join suppliers s on s.id = pa.supp_id where s.country = 'United Kingdom';
+   join suppliers s on s.id = pa.supp_id 
+   where s.country = 'United Kingdom';
 
 8- select o.id, o.order_reference, o.order_date, 
    item.quantity * pa.unit_price as "total cost" from orders o 
@@ -70,7 +71,9 @@ To submit this homework write the correct commands for each question here:
      sum i.quantity * a.unit_price as "total amount" from orders o 
      join customers c on c.id = o.customer_id 
      join order_items i on i.order_id = o.id 
-     join product_availability a on  a.prod_id = i.product_id group by c.name, o.order_reference, o.order_date order by "total amount" desc;
+     join product_availability a on  a.prod_id = i.product_id 
+     group by c.name, o.order_reference, o.order_date 
+     order by "total amount" desc;
 
 
 ```
