@@ -25,15 +25,14 @@ To submit this homework write the correct commands for each question here:
          desc limit 5;
 6.select p.product_name ,pa.unit_price, s.supplier_name
         from products p join suppliers s
-        on p.id=s.id
+        on p.id=s.id;
         join product_availability
         pa on pa.prod_id=p.id;
-7. select p.product_name ,s.supplier_name
-        from products p join suppliers s
-        on p.id=s.id
+7. select p.product_name,s.supplier_name from products p
+        join product_availability pa on p.id=pa.prod_id
+        join suppliers s on s.id=pa.supp_id;
         where s.country='United Kingdom';
-8.select pa.unit_price ,o.id,o.order_date ,o.order_reference ,o.customer_id,
-        oi.quantity,pa.unit_price/oi.quantity as unit_price
+8.select pa.unit_price ,o.id,o.order_date ,o.order_reference ,o.customer_id,oi.    quantity,pa.unit_price/oi.quantity as total_cost
         from product_availability
          pa join orders o on pa.prod_id =o.id
          join order_items oi  on o.id =oi.id
@@ -47,7 +46,19 @@ To submit this homework write the correct commands for each question here:
         join product_availability pa on pa.prod_id=p.id
         join order_items oi on oi.order_id=o.id
         where o.order_reference='ORD006';
-11.
+11.select p.product_name ,s.supplier_name,o.order_date,
+        o.order_reference ,c.name,oi.quantity
+        from products p join suppliers s on p.id =s.id
+        join orders o on o.id=s.id
+        join customers c on c.id=o.customer_id join
+        order_items oi on o.id=oi.order_id;
+12. select distinct s.country ,c.name
+        from orders o join order_items oi
+        on oi.order_id=o.id join suppliers s
+        on oi.supplier_id=s.id
+        join customers c on c.id=o.customer_id
+        where s.country='China';
+13.
 
 
 ```
