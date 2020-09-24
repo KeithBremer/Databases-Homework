@@ -1,0 +1,72 @@
+ order_id | order_reference | order_date | total 
+----------+-----------------+------------+-------
+        1 | ORD001          | 2019-06-01 |    18
+        1 | ORD001          | 2019-06-01 |    25
+        2 | ORD002          | 2019-07-15 |    32
+        2 | ORD002          | 2019-07-15 |    10
+        3 | ORD003          | 2019-07-11 |    40
+        3 | ORD003          | 2019-07-11 |    40
+(6 rows)
+
+ order_id | order_reference | order_date | total 
+----------+-----------------+------------+-------
+        1 | ORD001          | 2019-06-01 |    18
+        1 | ORD001          | 2019-06-01 |    25
+        2 | ORD002          | 2019-07-15 |    32
+        2 | ORD002          | 2019-07-15 |    10
+        3 | ORD003          | 2019-07-11 |    40
+        3 | ORD003          | 2019-07-11 |    40
+(6 rows)
+
+ order_id | order_reference | order_date | total 
+----------+-----------------+------------+-------
+        1 | ORD001          | 2019-06-01 |    18
+        1 | ORD001          | 2019-06-01 |    25
+        2 | ORD002          | 2019-07-15 |    32
+        2 | ORD002          | 2019-07-15 |    10
+        3 | ORD003          | 2019-07-11 |    40
+        3 | ORD003          | 2019-07-11 |    40
+(6 rows)
+
+ order_id |      product_name       | order_reference | order_date | total 
+----------+-------------------------+-----------------+------------+-------
+        1 | Tee Shirt Olympic Games | ORD001          | 2019-06-01 |    18
+        1 | Super warm socks        | ORD001          | 2019-06-01 |    25
+        2 | Super warm socks        | ORD002          | 2019-07-15 |    32
+        2 | Le Petit Prince         | ORD002          | 2019-07-15 |    10
+        3 | Coffee Cup              | ORD003          | 2019-07-11 |    40
+        3 | Ball                    | ORD003          | 2019-07-11 |    40
+(6 rows)
+
+ order_id | order_reference | order_date | total 
+----------+-----------------+------------+-------
+        1 | ORD001          | 2019-06-01 |    18
+        1 | ORD001          | 2019-06-01 |    25
+        2 | ORD002          | 2019-07-15 |    32
+        2 | ORD002          | 2019-07-15 |    10
+        3 | ORD003          | 2019-07-11 |    40
+        3 | ORD003          | 2019-07-11 |    40
+(6 rows)
+
+               List of relations
+ Schema |         Name         | Type  | Owner 
+--------+----------------------+-------+-------
+ public | customers            | table | admin
+ public | order_items          | table | admin
+ public | orders               | table | admin
+ public | product_availability | table | admin
+ public | products             | table | admin
+ public | suppliers            | table | admin
+(6 rows)
+
+               List of relations
+ Schema |         Name         | Type  | Owner 
+--------+----------------------+-------+-------
+ public | customers            | table | admin
+ public | order_items          | table | admin
+ public | orders               | table | admin
+ public | product_availability | table | admin
+ public | products             | table | admin
+ public | suppliers            | table | admin
+(6 rows)
+
