@@ -17,7 +17,7 @@ To submit this homework write the correct commands for each question here:
  from reservations where checkin_date between '2020-08-01'and '2020-08-31'
  8- select sum(checkout_date - checkin_date) from reservations where room_no between 201 and 299;
  9- select count(*), sum(total), avg(total) from invoices where total >300;
- 10- select sum(checkout_date - checkin_date) from reservations where room_no/100 ;
+ 10- select sum(checkout_date - checkin_date) from reservations group by room_no/100 ;
  ```
 
 When you have finished all of the questions - open a pull request with your answers to the `Databases-Homework` repository.
