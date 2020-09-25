@@ -75,10 +75,11 @@ To submit this homework write the correct commands for each question here:
 
 13.
     SELECT cust.name cust_names, orders.order_reference, orders.order_date,
-    oi.quantity * pa.unit_price total_amount
+    SUM(oi.quantity * pa.unit_price)total_amount
     FROM customers cust JOIN orders ON (cust.id=orders.customer_id)
     JOIN order_items oi ON (orders.id=oi.order_id)
-    JOIN product_availability pa ON (oi.product_id=pa.prod_id)
+    JOIN product_availability pa ON (oi.supplier_id = pa.supp_id and oi.product_id=pa.prod_id)
+    GROUP BY cust.name, orders.order_reference, orders.order_date
     ORDER BY total_amount DESC;
 
 ```
