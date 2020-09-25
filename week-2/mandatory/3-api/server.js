@@ -15,10 +15,16 @@ app.get("/", (req, res) => {
 });
 
 app.get("/customers", function (req, res) {
-  db.query(`SELECT * FROM customers`, (error, result) => {
-    if (error) throw error;
-    res.json(result.rows);
-  });
+  db.query(
+    `SELECT * FROM customers`,
+    (error, result)
+      .then((result) => {
+        res.json(result.rows);
+      })
+      .catch((error) => {
+        res.status(500).send(error);
+      })
+  );
 });
 
 app.get("/suppliers", function (req, res) {
