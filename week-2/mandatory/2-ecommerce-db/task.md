@@ -67,13 +67,11 @@ To submit this homework write the correct commands for each question here:
      join suppliers s on s.id = oi.supplier_id 
      where s.country = 'China';
 
-13- select c.name, o.order_reference, o.order_date, 
-     sum i.quantity * a.unit_price as "total amount" from orders o 
-     join customers c on c.id = o.customer_id 
-     join order_items i on i.order_id = o.id 
-     join product_availability a on  a.prod_id = i.product_id 
-     group by c.name, o.order_reference, o.order_date 
-     order by "total amount" desc;
+    13- select c.name, o.order_reference, o.order_date, sum(i.quantity * a.unit_price) as total from customers c 
+     join orders o on (o.customer_id = c.id) 
+     join order_items i on (i.order_id = o.id)
+     join product_availability a on (i.supplier_id  = a.supp_id and i.product_id = a.prod_id)
+     group by c.name, o.order_reference, o.order_date order by total desc;
 
 
 ```
