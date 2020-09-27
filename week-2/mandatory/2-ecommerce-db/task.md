@@ -7,7 +7,63 @@ In this homework, you are going to work with an ecommerce database. In this data
 Below you will find a set of tasks for you to complete to set up a database for an e-commerce app.
 
 To submit this homework write the correct commands for each question here:
+
 ```sql
+1. select * from customers
+where country = 'United States';
+2. select * from customers
+order by name asc;
+3. select * from products
+where product_name like '%socks%';
+4. select p.id, p.product_name, a.supp_id, a.unit_price from prodcuts p
+join product_availability a on (a.prod_id = p.id) where unit_price > 100;
+5. select p.id, p.product_name, a.supp_id, a.unit_price from products p
+join product_availability a on a.prod_id = p.id
+order by a.unit_price desc limit 5;
+6. select p.product_name, pa.unit_price, s.supplier_name from products p
+join product_availability pa on p.id = pa.prod_id
+join suppliers s on pa.supp_id = s.id;
+7. select p.product_name, s.supplier_name from products p
+join product_availability pa on p.id = pa.prod_id
+join suppliers s on pa.supp_id = s.id where s.country = 'United Kingdom';
+
+select p.product_name, s.supplier_name from products p
+join product_availability pa on p.id = pa.prod_id
+join suppliers s on pa.supp_id = s.id where upper(s.country) = 'UNITED KINGDOM';
+8. select o.id, o.order_reference, o.order_date, oi.quantity*pa.unit_price as "total cost" from orders o
+join customers c on o.customer_id = c.id
+join order_items oi on o.id = oi.order_id
+join product_availability pa on oi.product_id = pa.prod_id where c.id = 1;
+9. select * from orders o
+join order_items oi on o.id = oi.order_id where customer_id = (select id from customers where name = 'Hope Crosby');
+select * from orders o
+join order_items oi on o.id = oi.order_id
+join customers c on o.customer_id = c.id where c.name = 'Hope Crosby';
+10. select p.product_name, oi.quantity, pa.unit_price from products p
+join product_availability pa on pa.prod_id = p.id
+join order_items oi on oi.product_id = pa.prod_id
+join orders o on o.id = oi.order_id where o.order_reference = 'ORD006';
+11. select c.name, o.order_reference, o.order_date, p.product_name, s.supplier_name, oi.quantity from customers c
+join orders o on c.id = o.customer_id
+join order_items oi on oi.order_id = o.id
+join products p on p.id = oi.product_id
+join suppliers s on s.id = oi.supplier_id;
+12. select distinct c.name, s.country from customers c
+join orders o on c.id = o.customer_id
+join order_items oi on oi.order_id = o.id
+join suppliers s on oi.supplier_id = s.id
+where s.country = 'China';
+13. select c.name, o.order_reference, o.order_date, sum(oi.quantity*pa.unit_price) as "total amount" from orders o
+join customers c on c.id = o.customer_id
+join order_items oi on oi.order_id = o.id
+join product_availability pa on pa.prod_id = oi.product_id
+group by c.name, o.order_reference, o.order_date
+order by "total amount" desc;
+
+
+
+
+
 
 
 ```
@@ -41,10 +97,9 @@ Once you understand the database that you are going to work with, solve the foll
 5. Retrieve the 5 most expensive products
 6. Retrieve all the products with their corresponding suppliers. The result should only contain the columns `product_name`, `unit_price` and `supplier_name`
 7. Retrieve all the products sold by suppliers based in the United Kingdom. The result should only contain the columns `product_name` and `supplier_name`.
-8. Retrieve all orders, including order items, from customer ID `1`. Include order id, reference, date and total cost (calculated as quantity * unit price).
+8. Retrieve all orders, including order items, from customer ID `1`. Include order id, reference, date and total cost (calculated as quantity \* unit price).
 9. Retrieve all orders, including order items, from customer named `Hope Crosby`
 10. Retrieve all the products in the order `ORD006`. The result should only contain the columns `product_name`, `unit_price` and `quantity`.
 11. Retrieve all the products with their supplier for all orders of all customers. The result should only contain the columns `name` (from customer), `order_reference`, `order_date`, `product_name`, `supplier_name` and `quantity`.
 12. Retrieve the names of all customers who bought a product from a supplier based in China.
-13. List all orders giving customer name, order reference, order date and order total amount (quantity * unit price) in descending order of total.
-
+13. List all orders giving customer name, order reference, order date and order total amount (quantity \* unit price) in descending order of total.
