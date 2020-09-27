@@ -13,6 +13,7 @@ const db = new Pool({
   port: 5432,
 });
 
+
 app.get("/suppliers", function (req, res) {
   db.query("Select * from suppliers", (error, results) => {
     console.log(results);
