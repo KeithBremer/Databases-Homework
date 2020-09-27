@@ -66,17 +66,32 @@ app.get("/suppliers",(req, res)=>{
           .catch((e) => console.error(e));
      })
 
-     app.post("/customers", function(req,res){
+     app.post("/customers", (req,res)=>{
         const name = req.body.name;
         const address = req.body.address;
         const city = req.body.city; 
         const country = req.body.country
-        db.query(`insert into customers (name, address, city, country) 
-        values ($1,$2,$3,$4) returning id`, [name, address, city, country],
-        function(err, result){ res.json({"message":`New customer created with ${result.rows[0].id}` })
+        const sqlQuery = `insert into customers (name, address, city, country) 
+        values ($1,$2,$3,$4) returning name, address, city, country`
+        db.query(sqlQuery, [name, address, city, country],
+        (err)=>{ 
+          if (!err) {  
+          res.status(200).json({"message":`New customer created ` })
+        }
       }) 
     })
      
+    app.post("/products", (req,res)=>{
+      const newProduct = req.body.product_name
+      const sqlQuery = `insert into products (product_name) values ($1)`
+      
+      db.query(sqlQuery, [newProduct],
+      (err)=>{ 
+        if (!err) {  
+        res.status(200).json({"message":`Added new Product` })
+      }
+    }) 
+  })
 
 
 
