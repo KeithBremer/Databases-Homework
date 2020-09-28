@@ -8,8 +8,32 @@ Below you will find a set of tasks for you to complete to set up a database for 
 
 To submit this homework write the correct commands for each question here:
 ```sql
-
-
+--1
+select name,address from customers where country ='United States';
+--2
+select * from customers order by name;
+--3
+select * from products  where product_name like '%socks%';
+--4
+select p.* ,pa.unit_price,pa.supp_id from products p join product_availability pa on(p.id=pa.prod_id)  where pa.unit_price>100;
+--5
+select p.* from products p join product_availability pa on(p.id=pa.prod_id)  order by pa.unit_price desc limit 5;
+--6
+select p.product_name,pa.unit_price,s.supplier_name from products p join product_availability pa on(p.id=pa.prod_id)join suppliers s on (pa.supp_id=s.id) ;
+--7
+select p.product_name,s.supplier_name from products p join product_availability pa on(p.id=pa.prod_id)join suppliers s on (pa.supp_id=s.id) where s.country='United Kingdom' ;
+--8 
+ select o.id,o.order_reference,o.order_date,oi.quantity* pa.unit_price as total  from orders o  join order_items oi  on(o.id=oi.order_id) join product_availability pa on(oi.product_id=pa.prod_id) where o.customer_id=1 ;
+--9
+select o.*,oi.* from orders o  join order_items oi  on(o.id=oi.order_id) join customers c on(o.customer_id=c.id) where c.name='Hope Crosby' ; 
+--10
+select p.product_name,pa.unit_price,oi.quantity from product_availability pa join order_items oi  on(pa.prod_id=oi.product_id) join products p on(oi.product_id=p.id)join orders o on(o.id=oi.order_id) where o.order_reference='ORD006'and oi.supplier_id=pa.supp_id ;
+--11
+select c.name,o.order_reference,o.order_date, p.product_name,s.supplier_name,oi.quantity from orders o  join order_items oi  on(o.id=oi.order_id) join customers c on(o.customer_id=c.id)  join products p on(oi.product_id=p.id)join suppliers s on (oi.supplier_id=s.id) ;
+--12
+select distinct c.name from customers c join orders o on (o.customer_id=c.id)join order_items oi on(o.id=oi.order_id) join suppliers s on(s.id=oi.supplier_id) where s.country='China'
+--13
+select c.name,o.order_reference,o.order_date,sum(oi.quantity*pa.unit_price) as total_order from orders o  join order_items oi  on(o.id=oi.order_id) join customers c on(o.customer_id=c.id) join product_availability pa on(oi.product_id=pa.prod_id) group by o.id, c.name order by total_order desc;
 ```
 
 When you have finished all of the questions - open a pull request with your answers to the `Databases-Homework` repository.

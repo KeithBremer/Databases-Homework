@@ -7,8 +7,28 @@ Below you will find a set of tasks for you to complete to consolidate and extend
 To submit this homework write the correct commands for each question here:
 
 ```sql
+--1
+select room_no from rooms where rate>100;
+--2
+select * from reservations where  (checkin_date  between '2020-09-01' and '2020-09-30')and ( checkout_date- checkin_date >3);
+--3
+select * from customers where city like 'M%';
+--4
+INSERT INTO room_types VALUES ('PENTHOUSE',185.00);
+--5
+INSERT INTO rooms   select 501 as room_no, def_rate,'PENTHOUSE' as room_type,null as no_guest from room_types where room_type='PENTHOUSE';
 
-
+INSERT INTO rooms   select 502 as room_no, def_rate,'PENTHOUSE' as room_type,null as no_guest from room_types where room_type='PENTHOUSE';
+--6
+INSERT INTO rooms VALUES (503,143.00,'PREMIER PLUS',null);
+--7
+select count(room_no) from reservations where  (checkin_date  between '2020-08-01' and '2020-08-31');
+--8
+select sum(checkout_date-checkin_date) from reservations where  (room_no  between 201 and 299);
+--9
+select count(res_id),sum(total),avg(total) from invoices where total >300;
+--10
+SELECT sum(checkout_date-checkin_date),floor(room_no/100)as floor_No from reservations group by floor(room_no/100) having floor(room_no/100)>0;
 ```
 
 When you have finished all of the questions - open a pull request with your answers to the `Databases-Homework` repository.
