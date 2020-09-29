@@ -7,6 +7,58 @@ Below you will find a set of tasks for you to complete to consolidate and extend
 To submit this homework write the correct commands for each question here:
 
 ```sql
+1. SELECT * from room_types WHERE def_rate > 100;
+
+2. SELECT * from reservations WHERE checkin_date BETWEEN '2020-09-01' AND'2020-09-30' AND (checkout_date - checkin_date ) > 3;
+
+3. SELECT * from customers WHERE city LIKE 'M%';
+
+4. INSERT into room_types (room_type,def_rate) VALUES ('PENTHOUSE',185.00);
+
+5. INSERT into rooms (room_no, rate, room_type) VALUES
+   (501,185.00,'PENTHOUSE'),
+   (502,185.00,'PENTHOUSE');
+
+6. INSERT into rooms (room_no, rate, room_type) VALUES
+   (503,143.00,'PREMIER PLUS');
+
+7. SELECT count(id) from reservations
+   WHERE checkin_date >= '2020-08-01'
+   AND checkout_date <= '2020-08-31';
+
+8. SELECT SUM(checkout_date - checkin_date) from
+   reservations WHERE room_no between 201 AND 299;
+
+9. SELECT COUNT(*) from invoices
+   WHERE total > 300.00;
+
+   *Grand Total* 
+   SELECT SUM(total) from invoices
+   WHERE total > 300.00;
+
+   *Average*
+   SELECT AVG(total) from invoices 
+   WHERE total > 300.00;
+
+10. SELECT SUM(checkout_date - checkin_date) from reservations
+    WHERE room_no between 101 AND 112; 
+    (54)
+
+    SELECT SUM(checkout_date - checkin_date) from reservations
+    WHERE room_no between 201 AND 212;
+    (63)
+
+    SELECT SUM(checkout_date - checkin_date) from reservations
+    WHERE room_no between 301 AND 312;
+    (46)
+
+    SELECT SUM(checkout_date - checkin_date) from reservations
+    WHERE room_no between 401 AND 412;
+    (40)   
+
+    SELECT SUM(checkout_date - checkin_date) from reservations
+    WHERE room_no between 501 AND 512; 
+    (none)
 
 
 ```
