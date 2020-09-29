@@ -13,16 +13,15 @@ const db = new Pool({
   port: 5432,
 });
 
-// app.get('/products', function (req, res) {
-//   db.query('select * from products', (error, result) => {
-//     if (error == undefined) {
-//       res.json(result.rows);
-//     }
-//     else {
-//       res.json({ err: error });
-//     }
-//   });
-// });
+app.get('/products', function (req, res) {
+  db.query('select * from products', (error, result) => {
+    if (error == undefined) {
+      res.json(result.rows);
+    } else {
+      res.json({err: error});
+    }
+  });
+});
 
 app.get('/products', function (req, res) {
   const productName = req.query.name;
@@ -224,17 +223,34 @@ app.delete('/customers/:customerId', (req, res) => {
   });
 });
 
-//Add a new GET endpoint `/customers/:customerId/orders` to load all the orders along with 
-//the items in the orders of a specific customer.Especially, 
-//the following information should be returned: order references, order dates, product names, unit prices, 
+//Add a new GET endpoint `/customers/:customerId/orders` to load all the orders along with
+//the items in the orders of a specific customer.Especially,
+//the following information should be returned: order references, order dates, product names, unit prices,
 //suppliers and quantities.
 
 app.get('/customers/:customerId/orders', (req, res) => {
   const newCustomerId = parseInt(req.params.customerId);
-  db.query(``)
-})
-
-
+  db.query(
+    `select o.order_reference, o.order_date, p.product_name,
+   pa.unit_price, s.supplier_name, oi.quantity
+ from orders o 
+join order_items oi on o.id = oi.order_id 
+join product_availability pa on oi.supplier_id = pa.supp_id and
+oi.product_id = pa.prod_id 
+join products p on p.id = pa.prod_id
+join suppliers s on s.id = pa.supp_id
+where o.customer_id =$1`,
+    [newCustomerId]
+  ).then((result) => {
+    if (result.rows.length < 1) {
+      return res
+        .status(400)
+        .send('no information exist for this customer in database!');
+    } else {
+      res.json(result.rows).catch((e) => console.log(e));
+    }
+  });
+});
 
 app.listen(4000, function (req, res) {
   console.log('server is listening on port 4000 ready to accept request');
