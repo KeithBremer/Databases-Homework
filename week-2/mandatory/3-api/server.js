@@ -300,7 +300,7 @@ app.delete("/orders/:orderId", (req, res) => {
   });
 });
 app.delete("/customers/:customerId", (req, res) => {
-  let id = req.params.customerId;
+  let id = parseInt(req.params.customerId);
   db.query("SELECT * FROM customers where id = $1", [id], (error, result) => {
     if (error) {
       console.log("pg error code:", error.code);
@@ -341,7 +341,7 @@ app.delete("/customers/:customerId", (req, res) => {
 });
 
 app.get("/customers/:customerId/orders", (req, res) => {
-  let id = req.params.customerId;
+  let id = parseInt(req.params.customerId);
   db.query("SELECT * FROM customers where id = $1", [id], (error, result) => {
     if (error) {
       console.log("pg error code:", error.code);
