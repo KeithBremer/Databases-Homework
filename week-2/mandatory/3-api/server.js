@@ -37,7 +37,7 @@ app.get("/customers/:customerID", (req, res) => {
       if (result.rows.length > 0) {
         res.status(200).json(result.rows[0]);
       } else {
-        res.status(404).json("There is no customer with this ID");
+        res.status(404).json(`There is no customer with this ID ${id}`);
       }
     }
   });
@@ -158,13 +158,14 @@ app.post("/availability", (req, res) => {
             console.log("pg error code:", error.code);
             res.status(500).json(serverError);
           } else if (result.rows.length > 0) {
-            db.query(
-              sql_insert,
-              [product, supplier, price],
-              (error, result) => {
+            db.query(sql_insert, [product, supplier, price], (error) => {
+              if (error) {
+                console.log("pg error code:", error.code);
+                res.status(500).json(serverError);
+              } else {
                 res.status(201).json("Product price added.");
               }
-            );
+            });
           } else {
             res.status(404).json("Can't find a product with this ID");
           }
@@ -178,14 +179,171 @@ app.post("/availability", (req, res) => {
   }
 });
 
-app.post("/customers/:customerId/orders",(req,res)=>{
+app.post("/customers/:customerId/orders", (req, res) => {
   let id = parseInt(req.params.customerId),
-  sql_orders = "insert into orders (order_date, order_reference, customer_id)"+
-    "values (current_date,$1,$2)",
-  sql_customers = "select * from customers where id = $1",
-  sql_orderNumber = "select order_reference from orders order by id DESC limit 1"
+    sql_orders =
+      "insert into orders (order_date, order_reference, customer_id)" +
+      "values (current_date,$1,$2) returning order_reference",
+    sql_customers = "select * from customers where id = $1",
+    sql_orderNumber =
+      "select order_reference from orders order by id DESC limit 1";
 
-})
+  db.query(sql_customers, [id], (error, result) => {
+    if (error) {
+      console.log("pg error code:", error.code);
+      res.status(500).json(serverError);
+    } else if (result.rows.length > 0) {
+      db.query(sql_orderNumber, (error, result) => {
+        if (error) {
+          console.log("pg error code:", error.code);
+          res.status(500).json(serverError);
+        } else {
+          let lastOrder = result.rows[0].order_reference;
+          //orderRef functions are borrowed from https://electrictoolbox.com/pad-number-zeroes-javascript/ and SOF site
+          let orderRef = lastOrder.replace(/(\d+)+/g, function (match, number) {
+            function pad(number, length) {
+              let str = "" + number;
+              while (str.length < length) {
+                str = "0" + str;
+              }
+              return str;
+            }
+            return pad(parseInt(number) + 1, 3);
+          });
+          db.query(sql_orders, [orderRef, id], (error, result) => {
+            if (error) {
+              console.log("pg error code:", error.code);
+              res.status(500).json(serverError);
+            } else {
+              res
+                .status(201)
+                .json(
+                  `Order placed with reference ${result.rows[0].order_reference}`
+                );
+            }
+          });
+        }
+      });
+    }
+  });
+});
+
+app.put("/customers/:customerId", (req, res) => {
+  const id = parseInt(req.params.customerId),
+    name = req.body.name,
+    address = req.body.address,
+    city = req.body.city,
+    country = req.body.country;
+  db.query("SELECT * FROM customers where id = $1", [id], (error, result) => {
+    if (error) {
+      console.log("pg error code:", error.code);
+      res.status(500).json(serverError);
+      throw error;
+    } else {
+      if (result.rows.length > 0) {
+        db.query(
+          "update customers set name = $1, address = $2, city = $3,country = $4 where id = $5",
+          [name, address, city, country, id],
+          (error) => {
+            if (error) {
+              console.log("pg error code:", error.code);
+              res.status(500).json(serverError);
+              throw error;
+            } else {
+              res.status(200).json(`Customer with ID ${id} data updated.`);
+            }
+          }
+        );
+      } else {
+        res.status(404).json(`There is no customer with this ID ${id}`);
+      }
+    }
+  });
+});
+
+app.delete("/orders/:orderId", (req, res) => {
+  let id = req.params.orderId;
+  db.query("SELECT * FROM orders where id = $1", [id], (error, result) => {
+    if (error) {
+      console.log("pg error code:", error.code);
+      res.status(500).json(serverError);
+      throw error;
+    } else {
+      if (result.rows.length > 0) {
+        db.query(
+          "delete from order_items where order_id = $1",
+          [id],
+          (error) => {
+            if (error) {
+              console.log("pg error code:", error.code);
+              res.status(500).json(serverError);
+              throw error;
+            } else {
+              db.query("delete from orders where id = $1", [id], (error) => {
+                if (error) {
+                  console.log("pg error code:", error.code);
+                  res.status(500).json(serverError);
+                  throw error;
+                } else {
+                  res
+                    .status(200)
+                    .json(`Order ${id} and all it's Items are deleted`);
+                }
+              });
+            }
+          }
+        );
+      } else {
+        res.status(404).json(`There is no order with this ID ${id}`);
+      }
+    }
+  });
+});
+app.delete("/customers/:customerId", (req, res) => {
+  let id = req.params.customerId;
+  db.query("SELECT * FROM customers where id = $1", [id], (error, result) => {
+    if (error) {
+      console.log("pg error code:", error.code);
+      res.status(500).json(serverError);
+      throw error;
+    } else {
+      if (result.rows.length > 0) {
+        db.query(
+          "select * from orders where customer_id = $1",
+          [id],
+          (error, result) => {
+            if (error) {
+              console.log("pg error code:", error.code);
+              res.status(500).json(serverError);
+              throw error;
+            } else if (result.rows.length > 0) {
+              res
+                .status(200)
+                .json(`Can't delete customer with id ${id}. They have orders`);
+            } else {
+              db.query("delete from customers where id = $1", [id], (error) => {
+                if (error) {
+                  console.log("pg error code:", error.code);
+                  res.status(500).json(serverError);
+                  throw error;
+                } else {
+                  res.status(200).json(`Customer with ID ${id} is deleted`);
+                }
+              });
+            }
+          }
+        );
+      } else {
+        res.status(404).json(`There is no customer with this ID ${id}`);
+      }
+    }
+  });
+});
+
+app.get("/customers/:customerId/orders", (req, res) => {
+  let id = req.params.customerId;
+  
+});
 app.listen(3000, function () {
   console.log("Server is listening on port 3000.");
 });
