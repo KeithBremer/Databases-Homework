@@ -1,0 +1,15 @@
+{
+  "name": "cyf-ecommerce-api",
+  "version": "1.0.0",
+  "description": "Node App to that connects to a simple PostgreSQL database.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Osman Elsahib",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "pg": "^8.3.3"
+  }
+}
