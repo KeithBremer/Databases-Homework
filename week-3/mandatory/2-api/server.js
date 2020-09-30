@@ -1,10 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-const uri2sql = require('./uri2sql.js');
+
 
 app.listen(3000, function(){
     console.log("Server is listening on port 3000. Ready to accept requests!");
@@ -63,9 +63,8 @@ app.get("/customers/:customerid", function(req,res){
         
 
     } else{
-        
-
-        
+       res.send("Customer doesnt exist");       
+       
     }
     
 });
@@ -130,24 +129,115 @@ app.post("/availability", function(req,res){
     const newSuppId = req.body.suppId;
     const newUnitPrice = req.body.unitPrice;
 
-    db.query("SELECT 1 FROM products WHERE id = $1",[newProdId], (error, result)=>{
-        if(result.rowCount >0){
-            db.query("INSERT INTO product_availability (prod_id) VALUES ($2)",[newProdId]);
+
+    if(newUnitPrice > 0){
+        db.query("SELECT 1 FROM products WHERE id = $1",[newProdId], (error, result)=>{
+        if(result.rowCount < 0){
+            res.status(400).send("Product doesn't exist");
+            
         } else{
-            res.status(400).send("Prod id doesn't exist");
+            
+            db.query("INSERT INTO product_availability (prod_id, unit_price) VALUES ($2,$3)",[newProdId, newUnitPrice], (error)=>{
+                db.query("SELECT 1 FROM suppliers WHERE id = $4",[newSuppId], (error,result)=>{
+                    if(result.rowCount < 0){
+                        res.status(400).send("Supplier doesn't exist");
+                    }else{
+                        db.query("INSERT INTO product_availability (supp_id) VALUES ($5)",[newSuppId], (error)=>{
+                            res.send("Product info added");
+                        })
+                    }
+                })
+            });
         }
     });
+    }else{
+        res.send("Enter a positive value");
+    }
+});
 
-    db.query("SELECT 1 FROM suppliers WHERE id = $3", [newSuppId], (error, result)=>{
-        if(result.rowCount > 0){
-            db.query("INSERT INTO product_availability (supp_id) VALUES($4)",[newSuppId]);
+//customers/:customerId/orders
+app.post("/customers/:id/orders", function(req,res){
+    const customerId = req.params.id;
+    const orderDate = req.body.orderDate;
+    const orderReference = req.body.orderReference;
+
+    db.query("SELECT 1 FROM customers WHERE id = $1",[customerId], (error, result)=>{
+        if(error == undefined){
+            if(result.rowCount < 0){
+                res.send("Customer doesn't exist");
+            } else{
+                db.query("INSERT INTO orders (order_date, order_reference, customer_id)"+
+                "VALUES ($2,$3,$1)",[orderDate, orderReference, customerId],(error)=>{
+                    if(error === undefined){
+                        res.send("New order added");
+                    }else{
+                        res.status(400).send("Bad request" + error);
+                        console.log(error);
+                    }
+                    
+                });
+            }
         }else{
-            res.status(400).send("Supplier doesn't exist");
+            res.status(400).send("Bad request" + error);
+            console.log(error);
         }
     })
-    if(newUnitPrice <= 0){
-        res.send("Please enter a valid value");
-    }else{
-        db.query("INSERT INTO product_availability (unit_price) VALUES ($5)",[newUnitPrice]);
-    }
+
 })
+
+app.put("/customers/:id", function (req, res){
+    const customerId = req.params.id;
+    const newName = req.body.name;
+    const newAddress = req.body.address;
+    const newCity = req.body.city;
+    const newCountry = req.body.country;
+
+    db.query("UPDATE customers SET name=$2, address = $3, city = $4, country = $5 WHERE id=$1",
+            [customerId, newName, newAddress, newCity, newCountry], (error)=>{
+                if(error == undefined){
+                    res.send(`Customer ${customerId} updated!`);
+                } else{
+                    console.log(error);
+                    res.status(500).send("Bad Request");
+
+                }
+            });
+
+});
+
+app.delete("/orders/:orderId", function(req,res){
+    const orderId = req.params.orderId;
+
+    db.query("DELETE FROM orders WHERE id = $1",[orderId], (error)=>{
+        if(error==undefined){
+            res.send(`Order ${orderId} is deleted!`);
+        }else{
+            res.status(400).send("Bad Request " + error);
+        }
+    });
+});
+
+//delete an existing customer only if this customer doesn't have orders.
+app.delete("/customers/:id", function(req,res){
+    const customerId = req.params.id;
+    db.query("SELECT 1 from orders WHERE customer_id = $1",[customerId], (error, result)=>{
+        if(error == undefined){
+            if(result.rowCount === 0){
+                db.query("DELETE from customers WHERE id = $1",[customerId], (error)=>{
+                    if(error == undefined){
+                        res.send(`Customer ${customerId} deleted`)
+                    }else{
+                        res.status(400).send("Bad request " + error);
+                        console.log(error)
+                    }
+                })
+            }else{
+                res.send(`Customer ${customerId} has order pending`);
+            }
+        }else{
+            res.status(400).send("Bad Request " + error);
+            console.log(error);
+        }
+    });
+});
+
