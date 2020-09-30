@@ -4,7 +4,7 @@ const db = new Pool({
   user: "44788",
   host: "localhost",
   database: "cyf_ecommerce",
-  password: "sinead1507",
+  password: "*******",
   port: 5432,
 });
 
