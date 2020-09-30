@@ -342,8 +342,41 @@ app.delete("/customers/:customerId", (req, res) => {
 
 app.get("/customers/:customerId/orders", (req, res) => {
   let id = req.params.customerId;
-  
+  db.query("SELECT * FROM customers where id = $1", [id], (error, result) => {
+    if (error) {
+      console.log("pg error code:", error.code);
+      res.status(500).json(serverError);
+      throw error;
+    } else {
+      if (result.rows.length > 0) {
+        db.query(
+          "select o.order_reference as OrderRef, o.order_date as OrderDate," +
+            "p.product_name ProductNames, a.unit_price as UnitPrice,s.supplier_name as Supplier," +
+            "i.quantity as Quantity from order_items i join orders o on o.id=i.order_id " +
+            "join product_availability a on (i.product_id = a.prod_id and i.supplier_id = a.supp_id)" +
+            "join products p on p.id = a.prod_id join suppliers s on s.id = a.supp_id where o.customer_id = $1",
+          [id],
+          (error, result) => {
+            if (error) {
+              console.log("pg error code:", error.code);
+              res.status(500).json(serverError);
+              throw error;
+            } else {
+              res.status(200).json(result.rows);
+            }
+          }
+        );
+      } else {
+        res
+          .status(404)
+          .json(
+            `There is no customer with this ID ${id} or they haven't ordered yet.`
+          );
+      }
+    }
+  });
 });
+
 app.listen(3000, function () {
   console.log("Server is listening on port 3000.");
 });
