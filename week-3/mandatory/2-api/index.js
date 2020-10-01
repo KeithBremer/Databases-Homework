@@ -14,13 +14,19 @@ const db = new Pool({
 });
 
 app.get('/products', function (req, res) {
-  db.query('select * from products', (error, result) => {
-    if (error == undefined) {
-      res.json(result.rows);
-    } else {
-      res.json({err: error});
+  db.query(
+    'SELECT p.*, s.supplier_name ' +
+      'FROM products p JOIN ' +
+      'product_availability a ON (a.prod_id = p.id) JOIN ' +
+      'suppliers s ON (a.supp_id = s.id)',
+    (error, result) => {
+      if (error == undefined) {
+        res.json(result.rows);
+      } else {
+        res.json({err: error});
+      }
     }
-  });
+  );
 });
 
 app.get('/products', function (req, res) {
