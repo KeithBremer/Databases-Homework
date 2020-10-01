@@ -38,6 +38,20 @@ app.get("/products", (req, res) => {
   );
 });
 
+app.get("/customers/:id", (req, res) => {
+  const customer_id = parseInt(req.params.id);
+  db.query(
+    "select * from Customers where id = $1",
+    [customer_id],
+    (err, result) => {
+      if (err == undefined) {
+        console.log(result);
+        res.json(result.rows);
+      }
+    }
+  );
+});
+
 app.listen(3000, () => {
   console.log("port in listening");
 });
