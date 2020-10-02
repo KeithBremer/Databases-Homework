@@ -7,7 +7,28 @@ Below you will find a set of tasks for you to complete to consolidate and extend
 To submit this homework write the correct commands for each question here:
 
 ```sql
+1-  select * from rooms where rate > 100;
 
+2-  select * from reservations where checkin_date BETWEEN '2020-08-01' and '2020-09-01' and checkin_date + 3 < checkout_date;
+
+3-  select * from customers where city like 'M%';
+
+4- insert into room_types (room_type , def_rate) values ('PENTHOUSE', '185.00');
+
+5- insert into rooms  (room_no, rate, room_type) values ('501' ,'185.00', 'PENTHOUSE'), ('502' ,'185.00', 'PENTHOUSE');
+
+6- insert into rooms  (room_no, rate, room_type) values ('503' ,'143.00', 'PREMIER PLUS');
+
+7- SELECT count(distinct room_no) FROM reservations  WHERE checkin_date >= date_trunc('month', current_date - interval '1' month)   and checkout_date < date_trunc('month', current_date);  ===>  or SELECT count(room_no) FROM reservations  WHERE checkin_date >= date_trunc('month', current_date - interval '1' month);
+
+8-  select sum(checkout_date - checkin_date) from reservations where room_no between '201' and '299';
+
+9- select count(total) from invoices where total > 300; =>> number of invoices,,,,,, select AVG(total) from invoices where total > 300; ===> average ,,,,,, select sum(total) from invoices where total > 300; ==> total
+
+10- Floor1 ==> select sum(checkout_date - checkin_date) from reservations where room_no between '101' and '199';
+Floor2 ==> select sum(checkout_date - checkin_date) from reservations where room_no between '201' and '299';
+Floor3 ==> select sum(checkout_date - checkin_date) from reservations where room_no between '301' and '399';
+Floor4 ==> select sum(checkout_date - checkin_date) from reservations where room_no between '401' and '499';
 
 ```
 

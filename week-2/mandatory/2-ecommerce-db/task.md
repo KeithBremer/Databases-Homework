@@ -8,7 +8,33 @@ Below you will find a set of tasks for you to complete to set up a database for 
 
 To submit this homework write the correct commands for each question here:
 ```sql
+1- select name, address,country from customers where country = 'United States';
 
+2-  select * from customers order by name asc;
+
+3- select * from products where product_name like '%socks%';
+
+4- select pro.id, pro.product_name , pro_ava.unit_price , pro_ava.supp_id from products pro join product_availability pro_ava on (pro_ava.prod_id = pro.id) where pro_ava.unit_price > 100;
+
+5- select pro.product_name, available.prod_id, available.supp_id, available.unit_price from product_availability available join products pro on (available.prod_id = pro.id) order by unit_price desc limit 5;
+
+6- select pro.product_name , pro_avai.unit_price, supp.supplier_name from products pro join product_availability pro_avai on (pro_avai.prod_id = pro.id) join suppliers supp on (pro_avai.supp_id = supp.id);
+
+7- select pro.product_name , supp.supplier_name from products pro join product_availability pro_avai on(pro_avai.prod_id = pro.id) join suppliers supp on(pro_avai.supp_id = supp.id) where supp.country = 'United Kingdom';
+
+8- select  ord.id, ord.order_reference, ord.order_date, ord_i.quantity * pro_avai.unit_price as total_cost, ord.customer_id from orders ord join order_items ord_i on (ord_i.order_id = ord.id) join product_availability pro_avai on (pro_avai.prod_id = ord_i.product_id) where ord.customer_id = '1';
+
+9- select  ord.* ,ord_i.*, c.name  from orders ord  join  order_items ord_i on (ord_i.order_id = ord.id) inner join customers c on (ord.customer_id = c.id) where c.name = 'Hope Crosby';
+
+10- select pro.product_name , pro_avai.unit_price , ord_i.quantity from products pro join product_availability pro_avai on (pro_avai.prod_id = pro.id) join order_items ord_i on (pro.id = ord_i.product_id) join orders ord on (ord_i.order_id = ord.id)  where ord.order_reference = 'ORD006';
+
+11- select c.name, ord.order_reference , ord.order_date, pro.product_name, supp.supplier_name , ord_i.quantity from customers c join orders ord on ( ord.customer_id 
+= c.id) join order_items ord_i on (ord_i.order_id = ord.id) join suppliers supp on (ord_i.supplier_id = supp.id) join products pro on (ord_i.product_id = pro.id);
+
+12- select c.name from customers c join orders ord on (ord.customer_id = c.id) join order_items ord_i on (ord_i.order_id = ord.id) join suppliers supp on (ord_i.supplier_id = supp.id) where supp.country = 'China';
+
+13-  select c.name , ord.order_reference , ord.order_date, ord_i.quantity * pro_avai.unit_price  as total_amount from customers c join orders ord on (ord.customer_id 
+=c.id) join order_items ord_i on (ord_i.order_id = ord.id) join product_availability pro_avai on (pro_avai.prod_id = ord_i.product_id) order by total_amount desc;
 
 ```
 
