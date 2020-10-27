@@ -17,7 +17,7 @@ app.get("/customers", function(req, res) {
         res.json(result.rows);
     })
     })
-    //////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
     app.get("/orders", function(req, res) {
         pool.query('SELECT * FROM orders', (error, result) => {
             res.json(result.rows);
